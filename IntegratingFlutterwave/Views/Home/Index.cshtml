@@ -1,4 +1,6 @@
-﻿@{
+﻿@model FlutterwaveInputsViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,14 +8,14 @@
 <div class="text-center">
     <h3 class="display-4 mb-5">Payment Integration With Flutterwave</h3>
 
-    <form method="POST" class="make-payment" action="https://checkout.flutterwave.com/v3/hosted/pay">
-        <input hidden name="public_key" value="FLWPUBK_TEST-230f9b8800b4e301924d4b9b98ced40c-X" />
+    <form method="POST" class="payment-form-africa" action="https://checkout.flutterwave.com/v3/hosted/pay">
+        <input hidden name="public_key" value="FLWPUBK_TEST-230f9b8800b4e301924d4b9b98ced40c-X" aria-label="PublicKey"/>
 
-        <input name="customer[email]" placeholder="enter your email" />
-        <input name="customer[name]" placeholder="enter your name" />
-        <input hidden name="tx_ref" class="transaction_reference" />
-        <input name="amount" placeholder="enter amount to pay" />
-        <input name="currency" value="" placeholder="enter your currency" />
+        <input name="customer[email]" asp-for="email" placeholder="enter your email" aria-label="Email" />
+        <input name="customer[name]" asp-for="name" placeholder="enter your name" aria-label="Name"/>
+        <input name="tx_ref" asp-for="tx_ref" aria-label="TransactionReference"/>
+        <input name="amount" asp-for="amount" placeholder="enter amount to pay" aria-label="Amount"/>
+        <input name="currency" asp-for="currency" value="" placeholder="enter your currency" aria-label="Currency"/>
 
         <input hidden name="redirect_url" value="https://tobbyumoh.netlify.app/" />
         <button type="submit" class="btn btn-success mb-3">Proceed to pay</button>
@@ -22,7 +24,10 @@
 
 @section Scripts{
 
-    <script>
+    <script> 
+
+      
+
          $(document).ready(function () {
              var initialReferenceNumber = 202104569098;
 
@@ -30,28 +35,39 @@
 
              var result = `${initialReferenceNumber}${randomNumber}`;
 
-            $(".transaction_reference").val(result);
+            $("#tx_ref").val(result);
+
+      
+        //e.preventDefault();
+
+             //var currency = document.getElementById("currency");
+             //var email = document.getElementById("email");
+             //var phone = document.getElementById("phone");
+             //var amount = document.getElementById("amount");
+             //var tx_ref = document.getElementById("tx_ref");
+
+            $('.payment-form-africa').submit(e => {
+
+                var model = {
+                    currency: $('#currency').val(),
+                    email: $('#email').val(),
+                    amount: $('#amount').val(),
+                    tx_ref: $('#tx_ref').val(),
+                    name: $('#name').val()
+                };
+                console.log(model);
+                //e.preventDefault();
+
+                //console.log("this works");
+                $.post("/api/Home/PayWithFlutterWave", model, function (data, status) {
+                    console.log(status);
+                    console.log(data);
+                });
+
+
+            });
 
          });
-
-
-
-        //var currency = document.getElementById("currency");
-        //var amount = document.getElementById("amount");
-        //var tx_ref = document.getElementById("TransactionReference");
-
-        //$('.payment-form-africa').submit(e => {
-        //    var model = {
-        //        currency: currency.value,
-        //        amount: amount.value,
-        //        TransactionReference: tx_ref.value
-        //    }
-        //    console.log(model);
-        //    //e.preventDefault();
-        //    $.post("/api/paywithflutterwave", model, function (data, status) {
-        //        console.log(status);
-        //    });
-        //});
     </script>
 
 }

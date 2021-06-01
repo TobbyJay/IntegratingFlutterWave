@@ -10,7 +10,6 @@ namespace IntegratingFlutterwave.Models
         public Guid TransactionId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerEmail { get; set; }
-        public string CustomerPhone { get; set; }
         public string TransactionReference { get; set; }
         public decimal Amount { get; set; }
         public DateTime CreatedAt { get; set; }
