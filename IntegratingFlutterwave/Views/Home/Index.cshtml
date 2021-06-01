@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="text-center">
+    <h3 class="display-4 mb-5">Payment Integration With Flutterwave</h3>
+
+    <form method="POST" class="make-payment" action="https://checkout.flutterwave.com/v3/hosted/pay">
+        <input hidden name="public_key" value="FLWPUBK_TEST-230f9b8800b4e301924d4b9b98ced40c-X" />
+
+        <input name="customer[email]" placeholder="enter your email" />
+        <input name="customer[name]" placeholder="enter your name" />
+        <input hidden name="tx_ref" class="transaction_reference" />
+        <input name="amount" placeholder="enter amount to pay" />
+        <input name="currency" value="" placeholder="enter your currency" />
+
+        <input hidden name="redirect_url" value="https://tobbyumoh.netlify.app/" />
+        <button type="submit" class="btn btn-success mb-3">Proceed to pay</button>
+    </form>
+</div>
+
+@section Scripts{
+
+    <script>
+         $(document).ready(function () {
+             var initialReferenceNumber = 202104569098;
+
+             var randomNumber = Math.floor((Math.random() * 10000) + 1);
+
+             var result = `${initialReferenceNumber}${randomNumber}`;
+
+            $(".transaction_reference").val(result);
+
+         });
+
+
+
+        //var currency = document.getElementById("currency");
+        //var amount = document.getElementById("amount");
+        //var tx_ref = document.getElementById("TransactionReference");
+
+        //$('.payment-form-africa').submit(e => {
+        //    var model = {
+        //        currency: currency.value,
+        //        amount: amount.value,
+        //        TransactionReference: tx_ref.value
+        //    }
+        //    console.log(model);
+        //    //e.preventDefault();
+        //    $.post("/api/paywithflutterwave", model, function (data, status) {
+        //        console.log(status);
+        //    });
+        //});
+    </script>
+
+}
